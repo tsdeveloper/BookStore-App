@@ -30,7 +30,7 @@ export class AutorCreateComponent implements OnInit {
     console.log(this.registerForm.value);
     this.livroService.create(this.registerForm.value).subscribe({
       next: () => {
-        this.toastr.success('Autor salvo com sucesso!');
+        this.toastr.success('Autor atualizado com sucesso!');
 
         this.router.navigateByUrl('/autores')
       },

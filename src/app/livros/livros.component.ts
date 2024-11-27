@@ -21,6 +21,8 @@ export class LivrosComponent implements OnInit {
   ];
   totalCount = 0;
   @Input() useCache:boolean = true;
+  message: string | null = null;
+  progress: number | null = 0;
 
   constructor(private fb: FormBuilder, private router: Router,
     private livroService: LivroService, private toastr: ToastrService) {
@@ -71,5 +73,11 @@ export class LivrosComponent implements OnInit {
 
   emitEvent(useCache:any) {
     this.useCache = useCache;
+  }
+
+  onDowloadReport() {
+    this.livroService.getDownloadReport().subscribe((response) => {
+      this.message = "response['message']";
+  });
   }
 }

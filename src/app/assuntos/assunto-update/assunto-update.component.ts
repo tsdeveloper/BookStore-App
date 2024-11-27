@@ -51,7 +51,7 @@ export class AssuntoUpdateComponent implements OnInit {
     if (this.assunto) {
     this.assuntoService.update(this.assunto).subscribe({
       next: () => {
-        this.toastr.success('Assunto salvo com sucesso!');
+        this.toastr.success('Assunto atualizado com sucesso!');
         this.useCache.emit(false);
         this.router.navigateByUrl('/assuntos')
       },

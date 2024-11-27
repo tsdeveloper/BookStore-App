@@ -81,4 +81,11 @@ export class LivroService {
 
     return this.http.get<Livro>(this.baseUrl + 'livro/details/' + id);
   }
+
+  getDownloadReport() {
+    return this.http.get(`${this.baseUrl}/livro/gerar-pdf`, {
+      reportProgress: true,
+      responseType: 'blob',
+  });
+  }
 }

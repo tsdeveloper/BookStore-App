@@ -50,7 +50,7 @@ export class AutorUpdateComponent implements OnInit {
     if (this.autor) {
     this.autorService.update(this.autor).subscribe({
       next: () => {
-        this.toastr.success('Autor salvo com sucesso!');
+        this.toastr.success('Autor atualizado com sucesso!');
         this.useCache.emit(false);
         this.router.navigateByUrl('/autores')
       },
