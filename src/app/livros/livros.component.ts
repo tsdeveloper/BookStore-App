@@ -65,11 +65,13 @@ export class LivrosComponent implements OnInit {
     this.getLivros();
   }
 
-  onReset() {
+  onReset(useCache: boolean = true) {
+    console.log(`reset ${useCache}`);
+
     if (this.searchTerm) this.searchTerm.nativeElement.value = '';
     this.livroParams = new LivroParams();
     this.livroService.setLivroParams(this.livroParams);
-    this.getLivros();
+    this.getLivros(useCache);
   }
 
   emitEvent(useCache: any) {

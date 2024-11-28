@@ -26,11 +26,13 @@
           <button (click)="onReset()" class="btn btn-outline-success mx-2">
             Limpar filtro
           </button>
-
         </div>
       </div>
 
-      <app-assunto-item [assuntos]="assuntos"></app-assunto-item>
+      <app-assunto-item
+        (resetFormSubject)="onReset($event)"
+        [assuntos]="assuntos"
+      ></app-assunto-item>
 
       <div class="d-flex justify-content-center" *ngIf="totalCount > 0">
         <app-pager

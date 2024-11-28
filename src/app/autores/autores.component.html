@@ -29,7 +29,10 @@
         </div>
       </div>
 
-      <app-autor-item [autores]="autores"></app-autor-item>
+      <app-autor-item
+        (resetFormSubject)="onReload($event)"
+        [autores]="autores"
+      ></app-autor-item>
 
       <div class="d-flex justify-content-center" *ngIf="totalCount > 0">
         <app-pager

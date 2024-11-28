@@ -30,7 +30,6 @@ export class AutoresComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('List autors');
     this.useCache = false;
     this.getAutors(this.useCache);
   }
@@ -63,14 +62,19 @@ export class AutoresComponent implements OnInit {
     this.getAutors();
   }
 
-  onReset() {
+  onReset(useCache: boolean = true) {
+    console.log(`reset ${useCache}`);
     if (this.searchTerm) this.searchTerm.nativeElement.value = '';
     this.autorParams = new AutorParams();
     this.autorService.setAutorParams(this.autorParams);
-    this.getAutors();
+    this.getAutors(useCache);
   }
 
   emitEvent(useCache: any) {
     this.useCache = useCache;
+  }
+
+  onReload($emit: boolean) {
+    this.onReset($emit);
   }
 }

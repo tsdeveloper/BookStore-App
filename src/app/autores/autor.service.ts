@@ -21,6 +21,7 @@ export class AutorService {
     if (!useCache) this.autorCache = new Map();
 
     if (this.autorCache.size > 0 && useCache) {
+      console.log('autor useCache');
       if (this.autorCache.has(Object.values(this.autorParams).join('-'))) {
         this.pagination = this.autorCache.get(
           Object.values(this.autorParams).join('-')
@@ -28,7 +29,7 @@ export class AutorService {
         if (this.pagination) return of(this.pagination);
       }
     }
-
+    console.log('not autor useCache');
     let params = new HttpParams();
 
     if (this.autorParams.codAu > 0)
@@ -37,7 +38,7 @@ export class AutorService {
     params = params.append('sort', this.autorParams.sort);
     params = params.append('pageIndex', this.autorParams.pageNumber);
     params = params.append('pageSize', this.autorParams.pageSize);
-    console.log(this.autorParams.sort);
+
     if (this.autorParams.search)
       params = params.append('search', this.autorParams.search);
 
