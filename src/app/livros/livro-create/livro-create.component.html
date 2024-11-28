@@ -4,24 +4,27 @@
       <div class="text-center mb-4">
         <h1 class="mb-5">Cadastrar livro</h1>
       </div>
+      <div class="form-floating mb-3">
+        <ng-multiselect-dropdown
+          formControlName="autores"
+          [placeholder]="'Autores'"
+          [data]="dropdownAutorList"
+          [settings]="dropdownAutorListSettings"
+          (onSelect)="onItemSelect($event)"
+        >
+        </ng-multiselect-dropdown>
+      </div>
+      <div class="form-floating mb-3">
+        <ng-multiselect-dropdown
+          formControlName="assuntos"
+          [placeholder]="'Assuntos'"
+          [data]="dropdownAssuntoList"
+          [settings]="dropdownAssuntoListSettings"
+          (onSelect)="onItemSelect($event)"
+        >
+        </ng-multiselect-dropdown>
+      </div>
 
-      <ng-multiselect-dropdown
-        formControlName="autores"
-        [placeholder]="'Autores'"
-        [data]="dropdownAutorList"
-        [settings]="dropdownAutorListSettings"
-        (onSelect)="onItemSelect($event)"
-      >
-      </ng-multiselect-dropdown>
-
-      <ng-multiselect-dropdown
-        formControlName="assuntos"
-        [placeholder]="'Assuntos'"
-        [data]="dropdownAssuntoList"
-        [settings]="dropdownAssuntoListSettings"
-        (onSelect)="onItemSelect($event)"
-      >
-      </ng-multiselect-dropdown>
       <app-text-input
         formControlName="titulo"
         [label]="'Nome do Título'"
@@ -35,10 +38,21 @@
         formControlName="edicao"
         [label]="'Número da Edição '"
       ></app-text-input>
+      <!-- <app-text-input
+        formControlName="anoPublicacao"
+        [label]="'Ano de Publicação'"
+      ></app-text-input> -->
+
       <app-text-input
         formControlName="anoPublicacao"
         [label]="'Ano de Publicação'"
-      ></app-text-input>
+        [bsConfig]="bsConfig"
+        #dp="bsDatepicker"
+        bsDatepicker
+        [(bsValue)]="datePickerValue"
+        (bsValueChange)="onValueChange($event)"
+      >
+      </app-text-input>
 
       <ul class="text-danger list-unstyled" *ngIf="errors">
         <li *ngFor="let error of errors">

@@ -1,3 +1,4 @@
+import { LivroAutor } from './../../shared/models/LivroAutor';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   FormArray,
@@ -14,6 +15,11 @@ import { AutorService } from 'src/app/autores/autor.service';
 import { AssuntoService } from 'src/app/assuntos/assunto.service';
 import { Assunto } from 'src/app/shared/models/Assunto';
 import { Autor } from 'src/app/shared/models/Autor';
+import {
+  BsDatepickerConfig,
+  BsDatepickerViewMode,
+} from 'ngx-bootstrap/datepicker';
+import { LivroAssunto } from 'src/app/shared/models/LivroAssunto';
 
 @Component({
   selector: 'app-livro-update',
@@ -29,6 +35,10 @@ export class LivroUpdateComponent implements OnInit {
   dropdownAutorListSettings: any | null = null;
   dropdownAssuntoListSettings: any | null = null;
   registerForm: FormGroup;
+  datePickerValue: Date = new Date(2020, 7);
+  minMode: BsDatepickerViewMode = 'year';
+  bsConfig?: Partial<BsDatepickerConfig>;
+  livroId: any | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -39,8 +49,6 @@ export class LivroUpdateComponent implements OnInit {
     private autorService: AutorService,
     private assuntoService: AssuntoService
   ) {
-    console.log('run constructor');
-
     this.dropdownAutorListSettings = {
       singleSelection: false,
       idField: 'codAu',
@@ -62,25 +70,26 @@ export class LivroUpdateComponent implements OnInit {
       editora: ['', [Validators.required, Validators.maxLength(40)]],
       edicao: [0, Validators.required],
       anoPublicacao: ['', [Validators.required, Validators.maxLength(4)]],
-      autores: [[]],
-      assuntos: [[]],
+      autores: [[], Validators.required],
+      assuntos: [[], Validators.required],
     });
   }
 
   ngOnInit() {
-    console.log('run ngOnInit');
     this.getAutores();
     this.getAssuntos();
     this.loadLivro();
+    this.bsConfig = Object.assign({
+      minMode: this.minMode,
+      dateInputFormat: 'YYYY',
+    });
   }
 
   loadLivro() {
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
-    if (id)
-      this.livroService.getLivro(+id).subscribe({
+    this.livroId = this.activatedRoute.snapshot.paramMap.get('id');
+    if (this.livroId)
+      this.livroService.getLivro(+this.livroId).subscribe({
         next: (livro: Livro) => {
-          console.log(livro);
-
           // livro.autores.map((autor) => {
           //   console.log(`autor livro: ${autor.codAu}`);
           //   this.dropdownAutorList.map((dropAutor) => {
@@ -115,7 +124,25 @@ export class LivroUpdateComponent implements OnInit {
   }
   onSubmit() {
     if (this.livro) {
-      this.livroService.update(this.registerForm.value).subscribe({
+      this.livro = this.registerForm.value;
+      this.livro.autores = this.livro.autores.map(
+        (val) =>
+          ({
+            codAu: val.codAu,
+            codL: this.livro.codL,
+          } as LivroAutor)
+      );
+
+      this.livro.assuntos = this.livro.assuntos.map(
+        (val) =>
+          ({
+            codAs: val.codAs,
+            codL: this.livro.codL,
+          } as LivroAssunto)
+      );
+      console.log(this.livro);
+
+      this.livroService.update(this.livro).subscribe({
         next: () => {
           this.toastr.success('Livros salvo com sucesso!');
           this.useCache.emit(false);
@@ -152,5 +179,10 @@ export class LivroUpdateComponent implements OnInit {
 
   onItemSelect($event: any) {
     console.log('$event is ', $event);
+  }
+  onValueChange($event: Date) {
+    console.log($event);
+    let currentYear = $event.getFullYear();
+    this.registerForm.patchValue({ anoPublicacao: currentYear });
   }
 }

@@ -10,6 +10,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from "./shared/shared.module";
 import { AutoresComponent } from './autores/autores.component';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { AutoresComponent } from './autores/autores.component';
     BrowserAnimationsModule,
     CoreModule,
     DashboardModule,
+    BsDatepickerModule.forRoot(),
 ],
   providers: [],
   bootstrap: [AppComponent]

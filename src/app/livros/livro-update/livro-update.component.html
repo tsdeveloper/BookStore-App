@@ -23,15 +23,6 @@
       >
       </ng-multiselect-dropdown>
 
-      <!-- <ng-multiselect-dropdown
-        formControlName="assuntos"
-        [placeholder]="'Assuntos'"
-        [data]="dropdownAssuntoList"
-        [settings]="dropdownAssuntoListSettings"
-        (onSelect)="onItemSelect($event)"
-      >
-      </ng-multiselect-dropdown> -->
-
       <app-text-input
         formControlName="titulo"
         [label]="'Nome do Título'"
@@ -47,7 +38,13 @@
       <app-text-input
         formControlName="anoPublicacao"
         [label]="'Ano de Publicação'"
-      ></app-text-input>
+        [bsConfig]="bsConfig"
+        #dp="bsDatepicker"
+        bsDatepicker
+        [(bsValue)]="datePickerValue"
+        (bsValueChange)="onValueChange($event)"
+      >
+      </app-text-input>
 
       <ul class="text-danger list-unstyled" *ngIf="errors">
         <li *ngFor="let error of errors">
