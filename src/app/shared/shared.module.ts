@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { PagingHeaderComponent } from './paging-header/paging-header.component';
 import { PagerComponent } from './pager/pager.component';
@@ -11,9 +11,17 @@ import { RouterModule } from '@angular/router';
 import { TextInputComponent } from './text-input/text-input.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { MatCurrencyFormatModule } from 'mat-currency-format';
+import { NgxCurrencyDirective } from 'ngx-currency';
+import { CurrencyInputComponent } from './currency-input/currency-input.component';
 
 @NgModule({
-  declarations: [PagingHeaderComponent, PagerComponent, TextInputComponent],
+  declarations: [
+    PagingHeaderComponent,
+    PagerComponent,
+    TextInputComponent,
+    CurrencyInputComponent,
+  ],
   imports: [
     CommonModule,
     PaginationModule.forRoot(),
@@ -24,6 +32,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     RouterModule,
     NgMultiSelectDropDownModule.forRoot(),
     BsDatepickerModule,
+    NgxCurrencyDirective,
   ],
   exports: [
     PaginationModule,
@@ -35,6 +44,9 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     TextInputComponent,
     NgMultiSelectDropDownModule,
     BsDatepickerModule,
+    NgxCurrencyDirective,
+    CurrencyInputComponent,
   ],
+  providers: [CurrencyPipe, MatCurrencyFormatModule],
 })
 export class SharedModule {}

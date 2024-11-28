@@ -66,7 +66,9 @@ export class AutorService {
   update(value: Autor) {
     return this.http.put(`${this.baseUrl}/autor/editar/${value.codAu}`, value);
   }
-
+  delete(value: number) {
+    return this.http.delete(`${this.baseUrl}/autor/remover/${value}`);
+  }
   setAutorParams(params: AutorParams) {
     this.autorParams = params;
   }

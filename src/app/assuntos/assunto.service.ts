@@ -70,6 +70,10 @@ export class AssuntoService {
     );
   }
 
+  delete(value: number) {
+    return this.http.delete(`${this.baseUrl}/assunto/remover/${value}`);
+  }
+
   setAssuntoParams(params: AssuntoParams) {
     this.assuntoParams = params;
   }

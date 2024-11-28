@@ -54,6 +54,11 @@
       >
       </app-text-input>
 
+      <app-currency-input
+        formControlName="preco"
+        [label]="'Valor'"
+      ></app-currency-input>
+
       <ul class="text-danger list-unstyled" *ngIf="errors">
         <li *ngFor="let error of errors">
           {{ error }}

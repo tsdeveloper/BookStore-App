@@ -6,6 +6,7 @@
       <th>Editora</th>
       <th>Edição</th>
       <th>Ano Publicação</th>
+      <th>Preço</th>
       <th>Ação</th>
     </tr>
   </thead>
@@ -38,6 +39,9 @@
         <p class="text-muted mb-0">{{ livro.anoPublicacao }}</p>
       </td>
       <td>
+        <p class="text-muted mb-0">{{ livro.preco | currency }}</p>
+      </td>
+      <td>
         <button
           routerLink="/livros/{{ livro.codL }}"
           type="button"
@@ -45,7 +49,11 @@
         >
           Atualizar
         </button>
-        <button type="button" class="btn btn-link btn-sm btn-rounded">
+        <button
+          (click)="remover(livro.codL)"
+          type="button"
+          class="btn btn-link btn-sm btn-rounded"
+        >
           Remover
         </button>
       </td>

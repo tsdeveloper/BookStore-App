@@ -14,6 +14,7 @@ import {
   BsDatepickerViewMode,
 } from 'ngx-bootstrap/datepicker';
 import { LivroAssunto } from 'src/app/shared/models/LivroAssunto';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-livro-create',
@@ -33,20 +34,22 @@ export class LivroCreateComponent implements OnInit {
   minMode: BsDatepickerViewMode = 'year';
 
   bsConfig?: Partial<BsDatepickerConfig>;
-
+  formattedAmount: string | null = null;
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private livroService: LivroService,
     private toastr: ToastrService,
     private autorService: AutorService,
-    private assuntoService: AssuntoService
+    private assuntoService: AssuntoService,
+    private currencyPipe: CurrencyPipe
   ) {
     this.registerForm = this.fb.group({
       titulo: ['', [Validators.required, Validators.maxLength(40)]],
       editora: ['', [Validators.required, Validators.maxLength(40)]],
       edicao: ['', Validators.required],
-      anoPublicacao: [0, [Validators.required, Validators.maxLength(4)]],
+      preco: ['', Validators.required],
+      anoPublicacao: ['', [Validators.required, Validators.maxLength(4)]],
       autores: [[], [Validators.required]],
       assuntos: [[], [Validators.required]],
     });
@@ -134,5 +137,15 @@ export class LivroCreateComponent implements OnInit {
   onValueChange($event: Date) {
     let currentYear = $event.getFullYear();
     this.registerForm.patchValue({ anoPublicacao: currentYear });
+  }
+
+  transformAmount(element: any) {
+    this.formattedAmount = this.currencyPipe.transform(
+      this.registerForm.get('preco')?.value,
+      'BRL'
+    );
+    // Remove or comment this line if you dont want
+    // to show the formatted amount in the textbox.
+    element.target.value = this.formattedAmount;
   }
 }

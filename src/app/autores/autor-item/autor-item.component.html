@@ -6,32 +6,41 @@
       <th>Ação</th>
     </tr>
   </thead>
-  <tbody >
-    <tr  *ngFor="let autor of autores">
-  <td>
-    <p class="fw-bold mb-1">{{ autor.codAu }}</p>
-  </td>
-  <td>
-    <div class="d-flex align-items-center">
-      <img
-        src="https://mdbootstrap.com/img/new/avatars/8.jpg"
-        alt=""
-        style="width: 45px; height: 45px"
-        class="rounded-circle"
-      />
-      <div class="ms-3">
-        <p class="fw-bold mb-1">{{ autor.nome }}</p>
-      </div>
-    </div>
-  </td>
+  <tbody>
+    <tr *ngFor="let autor of autores">
+      <td>
+        <p class="fw-bold mb-1">{{ autor.codAu }}</p>
+      </td>
+      <td>
+        <div class="d-flex align-items-center">
+          <img
+            src="https://mdbootstrap.com/img/new/avatars/8.jpg"
+            alt=""
+            style="width: 45px; height: 45px"
+            class="rounded-circle"
+          />
+          <div class="ms-3">
+            <p class="fw-bold mb-1">{{ autor.nome }}</p>
+          </div>
+        </div>
+      </td>
 
-  <td>
-       <button routerLink="/autores/{{autor.codAu}}" type="button" class="btn btn-link btn-sm btn-rounded">
-      Atualizar
-    </button>
-    <button type="button" class="btn btn-link btn-sm btn-rounded">Remover</button>
-  </td>
-
-</tr>
-</tbody>
+      <td>
+        <button
+          routerLink="/autores/{{ autor.codAu }}"
+          type="button"
+          class="btn btn-link btn-sm btn-rounded"
+        >
+          Atualizar
+        </button>
+        <button
+          (click)="remover(autor.codAu)"
+          type="button"
+          class="btn btn-link btn-sm btn-rounded"
+        >
+          Remover
+        </button>
+      </td>
+    </tr>
+  </tbody>
 </table>

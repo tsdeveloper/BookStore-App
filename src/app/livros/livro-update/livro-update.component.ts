@@ -65,10 +65,11 @@ export class LivroUpdateComponent implements OnInit {
       unSelectAllText: 'limpar seleção',
     };
     this.registerForm = this.fb.group({
-      codL: [0, Validators.required],
+      codL: ['', Validators.required],
       titulo: ['', [Validators.required, Validators.maxLength(40)]],
       editora: ['', [Validators.required, Validators.maxLength(40)]],
-      edicao: [0, Validators.required],
+      edicao: ['', Validators.required],
+      preco: ['', Validators.required],
       anoPublicacao: ['', [Validators.required, Validators.maxLength(4)]],
       autores: [[], Validators.required],
       assuntos: [[], Validators.required],
@@ -90,15 +91,6 @@ export class LivroUpdateComponent implements OnInit {
     if (this.livroId)
       this.livroService.getLivro(+this.livroId).subscribe({
         next: (livro: Livro) => {
-          // livro.autores.map((autor) => {
-          //   console.log(`autor livro: ${autor.codAu}`);
-          //   this.dropdownAutorList.map((dropAutor) => {
-          //     console.log(`dropAutor autor livro: ${dropAutor.codAu}`);
-          //     if (dropAutor.codAu === autor.codAu)
-          //       autoresSelected.push(dropAutor);
-          //   });
-          // });
-
           this.livro = livro;
 
           let autoresSelected: Autor[] = livro.autores.map(({ autor }) => ({

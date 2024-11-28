@@ -17,6 +17,7 @@ export class Livro {
   editora = '';
   edicao = 0;
   anoPublicacao = '';
+  preco = 0;
   autores: LivroAutor[] = [];
   assuntos: LivroAssunto[] = [];
 }

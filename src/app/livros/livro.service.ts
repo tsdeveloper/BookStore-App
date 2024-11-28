@@ -73,6 +73,10 @@ export class LivroService {
     return this.http.put(`${this.baseUrl}/livro/editar/${value.codL}`, value);
   }
 
+  delete(value: number) {
+    return this.http.delete(`${this.baseUrl}/livro/remover/${value}`);
+  }
+
   setLivroParams(params: LivroParams) {
     this.livroParams = params;
   }
