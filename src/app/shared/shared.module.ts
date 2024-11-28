@@ -9,13 +9,10 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import { RouterModule } from '@angular/router';
 import { TextInputComponent } from './text-input/text-input.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
-  declarations: [
-    PagingHeaderComponent,
-    PagerComponent,
-    TextInputComponent,
-  ],
+  declarations: [PagingHeaderComponent, PagerComponent, TextInputComponent],
   imports: [
     CommonModule,
     PaginationModule.forRoot(),
@@ -23,7 +20,8 @@ import { TextInputComponent } from './text-input/text-input.component';
     ReactiveFormsModule,
     FormsModule,
     BsDropdownModule.forRoot(),
-    RouterModule
+    RouterModule,
+    NgMultiSelectDropDownModule.forRoot(),
   ],
   exports: [
     PaginationModule,
@@ -33,6 +31,7 @@ import { TextInputComponent } from './text-input/text-input.component';
     ReactiveFormsModule,
     BsDropdownModule,
     TextInputComponent,
-  ]
+    NgMultiSelectDropDownModule,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

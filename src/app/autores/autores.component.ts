@@ -9,27 +9,28 @@ import { AutorService } from './autor.service';
 @Component({
   selector: 'app-autores',
   templateUrl: './autores.component.html',
-  styleUrls: ['./autores.component.scss']
+  styleUrls: ['./autores.component.scss'],
 })
 export class AutoresComponent implements OnInit {
   errors: string[] | null = null;
   @ViewChild('search') searchTerm?: ElementRef;
   autores: Autor[] = [];
   autorParams: AutorParams;
-  sortOptions = [
-    {name: 'Ordem crescente', value: 'asc'},
-  ];
+  sortOptions = [{ name: 'Ordem crescente', value: 'asc' }];
   totalCount = 0;
-  @Input() useCache:boolean = true;
+  @Input() useCache: boolean = true;
 
-  constructor(private fb: FormBuilder, private router: Router,
-    private autorService: AutorService, private toastr: ToastrService) {
-      this.autorParams = autorService.getAutorParams();
-
-    }
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private autorService: AutorService,
+    private toastr: ToastrService
+  ) {
+    this.autorParams = autorService.getAutorParams();
+  }
 
   ngOnInit() {
-    console.log('List autors')
+    console.log('List autors');
     this.useCache = false;
     this.getAutors(this.useCache);
   }
@@ -43,14 +44,14 @@ export class AutoresComponent implements OnInit {
       this.getAutors();
     }
   }
-  getAutors(useCache:boolean = true) {
-    this.autorService.getAutors(useCache).subscribe({
-      next: response => {
+  getAutors(useCache: boolean = true) {
+    this.autorService.getAutores(useCache).subscribe({
+      next: (response) => {
         this.autores = response.data;
         this.totalCount = response.count;
       },
-      error: error => console.log(error)
-    })
+      error: (error) => console.log(error),
+    });
   }
 
   onSearch() {
@@ -69,8 +70,7 @@ export class AutoresComponent implements OnInit {
     this.getAutors();
   }
 
-  emitEvent(useCache:any) {
+  emitEvent(useCache: any) {
     this.useCache = useCache;
   }
-
 }

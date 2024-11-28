@@ -4,22 +4,66 @@
       <div class="text-center mb-4">
         <h1 class="mb-5">Atualizar Livro</h1>
       </div>
-      <app-text-input formControlName="titulo" [label]="'Nome do Título'"></app-text-input>
-      <app-text-input  formControlName="editora" [label]="'Nome da Editora '"></app-text-input>
-      <app-text-input formControlName="edicao" [label]="'Número da Edição '"></app-text-input>
-      <app-text-input formControlName="anoPublicacao" [label]="'Ano de Publicação'"></app-text-input>
+
+      <ng-multiselect-dropdown
+        formControlName="autores"
+        [placeholder]="'Autores'"
+        [data]="dropdownAutorList"
+        [settings]="dropdownAutorListSettings"
+        (onSelect)="onItemSelect($event)"
+      >
+      </ng-multiselect-dropdown>
+
+      <ng-multiselect-dropdown
+        formControlName="assuntos"
+        [placeholder]="'Assuntos'"
+        [data]="dropdownAssuntoList"
+        [settings]="dropdownAssuntoListSettings"
+        (onSelect)="onItemSelect($event)"
+      >
+      </ng-multiselect-dropdown>
+
+      <!-- <ng-multiselect-dropdown
+        formControlName="assuntos"
+        [placeholder]="'Assuntos'"
+        [data]="dropdownAssuntoList"
+        [settings]="dropdownAssuntoListSettings"
+        (onSelect)="onItemSelect($event)"
+      >
+      </ng-multiselect-dropdown> -->
+
+      <app-text-input
+        formControlName="titulo"
+        [label]="'Nome do Título'"
+      ></app-text-input>
+      <app-text-input
+        formControlName="editora"
+        [label]="'Nome da Editora '"
+      ></app-text-input>
+      <app-text-input
+        formControlName="edicao"
+        [label]="'Número da Edição '"
+      ></app-text-input>
+      <app-text-input
+        formControlName="anoPublicacao"
+        [label]="'Ano de Publicação'"
+      ></app-text-input>
 
       <ul class="text-danger list-unstyled" *ngIf="errors">
         <li *ngFor="let error of errors">
-          {{error}}
+          {{ error }}
         </li>
       </ul>
 
       <div class="d-grid">
-        <button [disabled]="registerForm.invalid" class="btn btn-lg btn-primary mt-5" type="submit">Atualizar</button>
+        <button
+          [disabled]="registerForm.invalid"
+          class="btn btn-lg btn-primary mt-5"
+          type="submit"
+        >
+          Atualizar
+        </button>
       </div>
     </form>
   </div>
-
 </div>
-

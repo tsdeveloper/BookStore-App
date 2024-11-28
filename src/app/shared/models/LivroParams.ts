@@ -1,5 +1,5 @@
 export class LivroParams {
-  codI = 0;
+  codL = 0;
   editora = '';
   edicao = 0;
   anoPublicacao = '';

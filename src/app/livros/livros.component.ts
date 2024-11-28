@@ -9,29 +9,30 @@ import { LivroParams } from '../shared/models/LivroParams';
 @Component({
   selector: 'app-livros',
   templateUrl: './livros.component.html',
-  styleUrls: ['./livros.component.scss']
+  styleUrls: ['./livros.component.scss'],
 })
 export class LivrosComponent implements OnInit {
   errors: string[] | null = null;
   @ViewChild('search') searchTerm?: ElementRef;
   livros: Livro[] = [];
   livroParams: LivroParams;
-  sortOptions = [
-    {name: 'Ordem crescente', value: 'asc'},
-  ];
+  sortOptions = [{ name: 'Ordem crescente', value: 'asc' }];
   totalCount = 0;
-  @Input() useCache:boolean = true;
+  @Input() useCache: boolean = true;
   message: string | null = null;
   progress: number | null = 0;
 
-  constructor(private fb: FormBuilder, private router: Router,
-    private livroService: LivroService, private toastr: ToastrService) {
-      this.livroParams = livroService.getLivroParams();
-
-    }
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private livroService: LivroService,
+    private toastr: ToastrService
+  ) {
+    this.livroParams = livroService.getLivroParams();
+  }
 
   ngOnInit() {
-    console.log('List livros')
+    console.log('List livros');
     this.useCache = false;
     this.getLivros(this.useCache);
   }
@@ -45,14 +46,14 @@ export class LivrosComponent implements OnInit {
       this.getLivros();
     }
   }
-  getLivros(useCache:boolean = true) {
+  getLivros(useCache: boolean = true) {
     this.livroService.getLivros(useCache).subscribe({
-      next: response => {
+      next: (response) => {
         this.livros = response.data;
         this.totalCount = response.count;
       },
-      error: error => console.log(error)
-    })
+      error: (error) => console.log(error),
+    });
   }
 
   onSearch() {
@@ -71,13 +72,17 @@ export class LivrosComponent implements OnInit {
     this.getLivros();
   }
 
-  emitEvent(useCache:any) {
+  emitEvent(useCache: any) {
     this.useCache = useCache;
   }
 
   onDowloadReport() {
-    this.livroService.getDownloadReport().subscribe((response) => {
-      this.message = "response['message']";
-  });
+    this.livroService.getDownloadReport().subscribe((blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'GeneratedDocument.pdf';
+      link.click();
+    });
   }
 }

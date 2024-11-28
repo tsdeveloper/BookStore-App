@@ -9,42 +9,46 @@
       <th>Ação</th>
     </tr>
   </thead>
-  <tbody >
-    <tr  *ngFor="let livro of livros">
-  <td>
-    <p class="fw-bold mb-1">{{ livro.codI }}</p>
-  </td>
-  <td>
-    <div class="d-flex align-items-center">
-      <img
-        src="https://mdbootstrap.com/img/new/avatars/8.jpg"
-        alt=""
-        style="width: 45px; height: 45px"
-        class="rounded-circle"
-      />
-      <div class="ms-3">
-        <p class="fw-bold mb-1">{{ livro.titulo }}</p>
-      </div>
-    </div>
-  </td>
-  <td>
-    <p class="fw-normal mb-1">{{ livro.editora }}</p>
-  </td>
+  <tbody>
+    <tr *ngFor="let livro of livros">
+      <td>
+        <p class="fw-bold mb-1">{{ livro.codL }}</p>
+      </td>
+      <td>
+        <div class="d-flex align-items-center">
+          <img
+            src="https://mdbootstrap.com/img/new/avatars/8.jpg"
+            alt=""
+            style="width: 45px; height: 45px"
+            class="rounded-circle"
+          />
+          <div class="ms-3">
+            <p class="fw-bold mb-1">{{ livro.titulo }}</p>
+          </div>
+        </div>
+      </td>
+      <td>
+        <p class="fw-normal mb-1">{{ livro.editora }}</p>
+      </td>
 
-  <td>
-    <p class="text-muted mb-0">{{ livro.edicao }}</p>
-  </td>
-  <td>
-    <p class="text-muted mb-0">{{ livro.anoPublicacao }}</p>
-  </td>
-  <td>
-
-    <button routerLink="/livros/{{livro.codI}}" type="button" class="btn btn-link btn-sm btn-rounded">
-      Atualizar
-    </button>
-    <button type="button" class="btn btn-link btn-sm btn-rounded">Remover</button>
-  </td>
-
-</tr>
-</tbody>
+      <td>
+        <p class="text-muted mb-0">{{ livro.edicao }}</p>
+      </td>
+      <td>
+        <p class="text-muted mb-0">{{ livro.anoPublicacao }}</p>
+      </td>
+      <td>
+        <button
+          routerLink="/livros/{{ livro.codL }}"
+          type="button"
+          class="btn btn-link btn-sm btn-rounded"
+        >
+          Atualizar
+        </button>
+        <button type="button" class="btn btn-link btn-sm btn-rounded">
+          Remover
+        </button>
+      </td>
+    </tr>
+  </tbody>
 </table>

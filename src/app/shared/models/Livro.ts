@@ -1,9 +1,22 @@
-export interface Livro {
-  codI?: number;
-  titulo: string;
-  editora: string;
-  edicao: number;
-  anoPublicacao: string;
-  // livro_AutorList: Livro_Autor[];
-  // livro_AssuntoList: Livro_Assunto[];
+import { LivroAssunto } from './LivroAssunto';
+import { LivroAutor } from './LivroAutor';
+
+// export interface Livro {
+//   codL?: number;
+//   titulo: string;
+//   editora: string;
+//   edicao: number;
+//   anoPublicacao: string;
+//   autores?: LivroAutor[];
+//   assuntos?: LivroAssunto[];
+// }
+
+export class Livro {
+  codL = 0;
+  titulo = '';
+  editora = '';
+  edicao = 0;
+  anoPublicacao = '';
+  autores: LivroAutor[] = [];
+  assuntos: LivroAssunto[] = [];
 }

@@ -1,75 +1,156 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LivroService } from '../livro.service';
 import { Livro } from 'src/app/shared/models/Livro';
+import { AutorService } from 'src/app/autores/autor.service';
+import { AssuntoService } from 'src/app/assuntos/assunto.service';
+import { Assunto } from 'src/app/shared/models/Assunto';
+import { Autor } from 'src/app/shared/models/Autor';
 
 @Component({
   selector: 'app-livro-update',
   templateUrl: './livro-update.component.html',
-  styleUrls: ['./livro-update.component.scss']
+  styleUrls: ['./livro-update.component.scss'],
 })
 export class LivroUpdateComponent implements OnInit {
   errors: string[] | null = null;
-  @Input() livro: Livro | null = null;
-  registerForm: any;
-  @Output() useCache= new EventEmitter();
-  constructor(private fb: FormBuilder, private router: Router,
-    private livroService: LivroService, private toastr: ToastrService,
-    private activatedRoute: ActivatedRoute) { }
+  livro: Livro = new Livro();
+  @Output() useCache = new EventEmitter();
+  dropdownAutorList: Autor[] = [];
+  dropdownAssuntoList: Assunto[] = [];
+  dropdownAutorListSettings: any | null = null;
+  dropdownAssuntoListSettings: any | null = null;
+  registerForm: FormGroup;
 
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private livroService: LivroService,
+    private toastr: ToastrService,
+    private activatedRoute: ActivatedRoute,
+    private autorService: AutorService,
+    private assuntoService: AssuntoService
+  ) {
+    console.log('run constructor');
 
+    this.dropdownAutorListSettings = {
+      singleSelection: false,
+      idField: 'codAu',
+      textField: 'nome',
+      selectAllText: 'Selecionar todos',
+      unSelectAllText: 'limpar seleção',
+    };
 
-  ngOnInit() {
+    this.dropdownAssuntoListSettings = {
+      singleSelection: false,
+      idField: 'codAs',
+      textField: 'descricao',
+      selectAllText: 'Selecionar todos',
+      unSelectAllText: 'limpar seleção',
+    };
     this.registerForm = this.fb.group({
-      codI: [0, Validators.required],
+      codL: [0, Validators.required],
       titulo: ['', [Validators.required, Validators.maxLength(40)]],
       editora: ['', [Validators.required, Validators.maxLength(40)]],
       edicao: [0, Validators.required],
       anoPublicacao: ['', [Validators.required, Validators.maxLength(4)]],
-    })
-   this.loadLivro();
-
+      autores: [[]],
+      assuntos: [[]],
+    });
   }
+
+  ngOnInit() {
+    console.log('run ngOnInit');
+    this.getAutores();
+    this.getAssuntos();
+    this.loadLivro();
+  }
+
   loadLivro() {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
-    if (id) this.livroService.getLivro(+id).subscribe({
-      next: (livro:Livro) => {
+    if (id)
+      this.livroService.getLivro(+id).subscribe({
+        next: (livro: Livro) => {
+          console.log(livro);
 
-        this.livro = livro;
-        this.registerForm = this.fb.group({
-          codI: [livro.codI],
-          titulo: [livro.titulo],
-          editora: [livro.editora],
-          edicao: [livro.edicao],
-          anoPublicacao: [livro.anoPublicacao],
-        });
-      },
-      error: error => console.log(error)
-    })
+          // livro.autores.map((autor) => {
+          //   console.log(`autor livro: ${autor.codAu}`);
+          //   this.dropdownAutorList.map((dropAutor) => {
+          //     console.log(`dropAutor autor livro: ${dropAutor.codAu}`);
+          //     if (dropAutor.codAu === autor.codAu)
+          //       autoresSelected.push(dropAutor);
+          //   });
+          // });
+
+          this.livro = livro;
+
+          let autoresSelected: Autor[] = livro.autores.map(({ autor }) => ({
+            codAu: autor.codAu,
+            nome: autor.nome,
+          }));
+
+          let assuntosSelected: Assunto[] = livro.assuntos.map(
+            ({ assunto }) => ({
+              codAs: assunto.codAs,
+              descricao: assunto.descricao,
+            })
+          );
+
+          this.registerForm.patchValue({
+            ...livro,
+            autores: autoresSelected,
+            assuntos: assuntosSelected,
+          });
+        },
+        error: (error) => console.log(error),
+      });
   }
   onSubmit() {
-    this.livro = this.registerForm.value;
-    console.log(this.livro?.codI);
-    console.log(this.livro?.edicao);
-
     if (this.livro) {
-    this.livroService.update(this.livro).subscribe({
-      next: () => {
-        this.toastr.success('Livros salvo com sucesso!');
-        this.useCache.emit(false);
-        this.router.navigateByUrl('/livros')
-      },
-      error: (error) => {
-        console.log(error.error.message);
-        this.errors = [];
-        this.errors.push(error.error.message);
-        console.log(this.errors);
-        this.toastr.error(this.errors.at(0))
-      },
-    })
-  }
+      this.livroService.update(this.registerForm.value).subscribe({
+        next: () => {
+          this.toastr.success('Livros salvo com sucesso!');
+          this.useCache.emit(false);
+          this.router.navigateByUrl('/livros');
+        },
+        error: (error) => {
+          console.log(error.error.message);
+          this.errors = [];
+          this.errors.push(error.error.message);
+          console.log(this.errors);
+          this.toastr.error(this.errors.at(0));
+        },
+      });
+    }
   }
 
+  getAutores(useCache: boolean = true) {
+    this.autorService.getAutores(useCache).subscribe({
+      next: (response) => {
+        this.dropdownAutorList = response.data;
+      },
+      error: (error) => console.log(error),
+    });
+  }
+
+  getAssuntos(useCache: boolean = true) {
+    this.assuntoService.getAssuntos(useCache).subscribe({
+      next: (response) => {
+        this.dropdownAssuntoList = response.data;
+      },
+      error: (error) => console.log(error),
+    });
+  }
+
+  onItemSelect($event: any) {
+    console.log('$event is ', $event);
+  }
 }
